@@ -1,4 +1,10 @@
 <resources>
   <string name="app_name">To Do List</string>
   <string name="txt_add_note">add note</string>
+  <string name="txt_hint_add_text">Введите текст заметки...</string>
+  <string name="txt_priority_low">Низкий</string>
+  <string name="txt_priority_medium">Средний</string>
+  <string name="txt_priority_high">Высокий</string>
+  <string name="txt_add_note_btn">Добавить</string>
+  <string name="txt_error_empty">Поле текста пустое...</string>
 </resources>

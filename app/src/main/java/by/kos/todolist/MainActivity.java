@@ -31,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
       notes.add(new Note(i, "Note" + i, random.nextInt(3)));
     }
     showNotes();
+
+    btnAddNote.setOnClickListener(view -> {
+      startActivity(AddNoteActivity.newIntent(this));
+    });
   }
 
   private void initViews() {
@@ -40,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
 
   private void showNotes() {
     for (Note note : notes) {
-      Log.d("item_p", String.valueOf(note.getPriority()));
       View noteView = getLayoutInflater().inflate(R.layout.note_item, llNotes, false);
       TextView noteItem = noteView.findViewById(R.id.tvNote);
       noteItem.setText(note.getText());

@@ -13,6 +13,14 @@
     android:theme="@style/Theme.ToDoList"
     tools:targetApi="31">
     <activity
+      android:exported="false"
+      android:name=".AddNoteActivity"
+      android:windowSoftInputMode="adjustResize">
+      <meta-data
+        android:name="android.app.lib_name"
+        android:value="" />
+    </activity>
+    <activity
       android:exported="true"
       android:name=".MainActivity">
       <intent-filter>
