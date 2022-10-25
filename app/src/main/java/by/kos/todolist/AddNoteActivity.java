@@ -2,10 +2,9 @@ package by.kos.todolist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +20,7 @@ public class AddNoteActivity extends AppCompatActivity {
   private RadioButton rBtnMedium;
   private RadioButton rBtnHigh;
   private Button btnAddNote;
+  private Database notes = Database.getInstance();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +34,24 @@ public class AddNoteActivity extends AppCompatActivity {
   }
 
   private int getPriority() {
-    return radioGroupPriority.getCheckedRadioButtonId();
+    int priority;
+    if (rBtnLow.isChecked()) {
+      priority = 0;
+    } else if (rBtnMedium.isChecked()) {
+      priority = 1;
+    } else {
+      priority = 2;
+    }
+    return priority;
   }
 
   private void saveNote(View view) {
     String text = edtText.getText().toString().trim();
     if (!text.isEmpty()) {
       int priority = getPriority();
+      int id = notes.getNotes().size();
+      notes.add(new Note(id, text, priority));
+      finish();
     } else {
       Snackbar.make(view, R.string.txt_error_empty, Snackbar.LENGTH_SHORT).show();
     }

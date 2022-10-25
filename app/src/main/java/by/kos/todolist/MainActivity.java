@@ -1,8 +1,5 @@
 package by.kos.todolist;
 
-import android.graphics.Color;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,31 +7,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
   private LinearLayout llNotes;
   private FloatingActionButton btnAddNote;
-  ArrayList<Note> notes;
+  private Database notes = Database.getInstance();
 
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
     initViews();
-    Random random = new Random();
-    notes = new ArrayList<>();
-    for (int i = 0; i < 20; i++) {
-      notes.add(new Note(i, "Note" + i, random.nextInt(3)));
-    }
-    showNotes();
 
     btnAddNote.setOnClickListener(view -> {
       startActivity(AddNoteActivity.newIntent(this));
     });
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    showNotes();
   }
 
   private void initViews() {
@@ -43,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void showNotes() {
-    for (Note note : notes) {
+    llNotes.removeAllViews();
+    for (Note note : notes.getNotes()) {
       View noteView = getLayoutInflater().inflate(R.layout.note_item, llNotes, false);
       TextView noteItem = noteView.findViewById(R.id.tvNote);
       noteItem.setText(note.getText());
