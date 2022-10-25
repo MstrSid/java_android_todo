@@ -48,15 +48,12 @@ public class MainActivity extends AppCompatActivity {
       switch (note.getPriority()) {
         case 0:
           colorResId = android.R.color.holo_green_light;
-          noteItem.setBackgroundColor(Color.parseColor("red"));
           break;
         case 1:
           colorResId = android.R.color.holo_orange_light;
-          noteItem.setBackgroundColor(Color.parseColor("yellow"));
           break;
         default:
           colorResId = android.R.color.holo_red_light;
-          noteItem.setBackgroundColor(Color.parseColor("green"));
           break;
       }
       int color = ContextCompat.getColor(this, colorResId);
