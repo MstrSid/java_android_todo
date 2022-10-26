@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     initViews();
 
     notesAdapter = new NotesAdapter();
+    notesAdapter.setOnNoteClickListener(note -> {
+      notes.remove(note.getId());
+      showNotes();
+    });
     rcvNotes.setAdapter(notesAdapter);
     rcvNotes.setLayoutManager(new LinearLayoutManager(this));
 

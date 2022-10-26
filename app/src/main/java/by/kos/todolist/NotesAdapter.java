@@ -13,9 +13,14 @@ import java.util.ArrayList;
 public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
 
   ArrayList<Note> notes = new ArrayList<>();
+  private OnNoteClickListener onNoteClickListener;
 
   public void setNotes(ArrayList<Note> notes) {
     this.notes = notes;
+  }
+
+  public void setOnNoteClickListener(OnNoteClickListener onNoteClickListener) {
+    this.onNoteClickListener = onNoteClickListener;
   }
 
   @NonNull
@@ -43,6 +48,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     }
     int color = ContextCompat.getColor(holder.itemView.getContext(), colorResId);
     holder.noteView.setBackgroundColor(color);
+
+    holder.itemView.setOnClickListener(view -> {
+      if (onNoteClickListener != null) {
+        onNoteClickListener.onNoteClick(note);
+      }
+    });
   }
 
   @Override
@@ -58,6 +69,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
       super(itemView);
       noteView = itemView.findViewById(R.id.tvNote);
     }
+  }
+
+  interface OnNoteClickListener {
+
+    void onNoteClick(Note note);
   }
 }
 
