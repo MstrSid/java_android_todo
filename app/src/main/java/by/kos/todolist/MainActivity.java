@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
   private RecyclerView rcvNotes;
   private NotesAdapter notesAdapter;
 
-  private final Database notes = Database.getInstance();
+  private NoteDatabase noteDatabase;
 
 
   @Override
@@ -26,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     initViews();
+
+    noteDatabase = NoteDatabase.getInstance(getApplication());
 
     notesAdapter = new NotesAdapter();
 
@@ -43,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
           @Override
           public void onSwiped(@NonNull ViewHolder viewHolder, int direction) {
             int position = viewHolder.getAdapterPosition();
-            Note note = notes.getNotes().get(position);
-            notes.remove(note.getId());
+            Note note = notesAdapter.getNotes().get(position);
+            noteDatabase.notesDao().remove(note.getId());
             showNotes();
           }
         });
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void showNotes() {
-    notesAdapter.setNotes(notes.getNotes());
+    notesAdapter.setNotes(noteDatabase.notesDao().getNotes());
     notesAdapter.notifyDataSetChanged();
   }
 }
