@@ -2,6 +2,8 @@ package by.kos.todolist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,7 @@ public class AddNoteActivity extends AppCompatActivity {
   private RadioButton rBtnHigh;
   private Button btnAddNote;
   private NoteDatabase noteDatabase;
+  private Handler handler = new Handler(Looper.getMainLooper());
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,13 @@ public class AddNoteActivity extends AppCompatActivity {
     String text = edtText.getText().toString().trim();
     if (!text.isEmpty()) {
       int priority = getPriority();
-      noteDatabase.notesDao().add(new Note(text, priority));
-      finish();
+      Thread thread = new Thread(() -> {
+        noteDatabase.notesDao().add(new Note(text, priority));
+        handler.post(() -> finish());
+      });
+      thread.start();
+
+
     } else {
       Snackbar.make(view, R.string.txt_error_empty, Snackbar.LENGTH_SHORT).show();
     }

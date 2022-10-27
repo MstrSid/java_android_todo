@@ -20,6 +20,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
   }
 
   private OnNoteClickListener onNoteClickListener;
+  private OnNoteLongClickListener onNoteLongClickListener;
 
   public void setNotes(List<Note> notes) {
     this.notes = notes;
@@ -29,6 +30,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     this.onNoteClickListener = onNoteClickListener;
   }
 
+  public void setOnNoteLongClickListener(
+      OnNoteLongClickListener onNoteLongClickListener) {
+    this.onNoteLongClickListener = onNoteLongClickListener;
+  }
 
   @NonNull
   @Override
@@ -79,8 +84,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesViewHolder> {
   }
 
   interface OnNoteClickListener {
-
     void onNoteClick(Note note);
+  }
+
+  interface OnNoteLongClickListener {
+    void onNoteLongClick(Note note);
   }
 }
 
