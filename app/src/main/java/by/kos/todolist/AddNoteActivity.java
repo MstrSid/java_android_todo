@@ -20,13 +20,14 @@ public class AddNoteActivity extends AppCompatActivity {
   private RadioButton rBtnMedium;
   private RadioButton rBtnHigh;
   private Button btnAddNote;
-  private Database notes = Database.getInstance();
+  private NoteDatabase noteDatabase;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_add_note);
     initViews();
+    noteDatabase = NoteDatabase.getInstance(getApplication());
 
     btnAddNote.setOnClickListener(view -> {
       saveNote(view);
@@ -49,8 +50,7 @@ public class AddNoteActivity extends AppCompatActivity {
     String text = edtText.getText().toString().trim();
     if (!text.isEmpty()) {
       int priority = getPriority();
-      int id = notes.getNotes().size();
-      notes.add(new Note(id, text, priority));
+      noteDatabase.notesDao().add(new Note(text, priority));
       finish();
     } else {
       Snackbar.make(view, R.string.txt_error_empty, Snackbar.LENGTH_SHORT).show();
